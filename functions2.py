@@ -1,5 +1,23 @@
 # Graph functions
 
+def validity_check(graph):
+
+    valid = True
+
+    for key, value in graph[1].iteritems():
+        if not value:
+            valid = False
+            print('Edge connected to no nodes')
+            break
+
+        else:
+            for x in value:
+                if x not in graph[0]:
+                    print('Graph contains reference to invalid node')
+                    valid = False
+                    break
+    return valid
+
 def find_path():
 
     return None
@@ -22,16 +40,27 @@ def find_intersect(subgraph, subgraph2):
 
 def lower_negation(graph, subgraph):
 
-    s1_nodes = set()
-    s2_nodes = set()
+    subgraph_nodes = set()
+    deleted_nodes = set()
+    subgraph3 = [{}, set()]
 
-    for k, v in subgraph[1].iteritems():
-            for x in v:
-                s1_nodes.add(x)
+    for keys, values in subgraph[1].iteritems():
+        for element in values:
+                subgraph_nodes.add(element)
 
-    for k, v in graph[1].iteritems():
-        for x in v:
-            if x not in s1_nodes:
-                s2_nodes.add(x)
+    for keys, values in graph[1].iteritems():
+        for element in values:
+            if element in subgraph_nodes:
+                deleted_nodes.add(element)
+            else:
+                subgraph3[1].add(element)
 
-    return s2_nodes
+    for keys, values in graph[1].iteritems():
+        for elements in values:
+            if elements in deleted_nodes:
+                break
+        else:
+            subgraph3[0][keys] = values
+
+    return subgraph3
+
