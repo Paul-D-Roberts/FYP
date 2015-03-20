@@ -42,7 +42,7 @@ def lower_negation(graph, subgraph):
 
     subgraph_nodes = set()
     deleted_nodes = set()
-    subgraph3 = [{}, set()]
+    subgraph3 = [set(), {}]
 
     for keys, values in subgraph[1].iteritems():
         for element in values:
@@ -53,14 +53,14 @@ def lower_negation(graph, subgraph):
             if element in subgraph_nodes:
                 deleted_nodes.add(element)
             else:
-                subgraph3[1].add(element)
+                subgraph3[0].add(element)
 
     for keys, values in graph[1].iteritems():
         for elements in values:
             if elements in deleted_nodes:
                 break
         else:
-            subgraph3[0][keys] = values
+            subgraph3[1][keys] = values
 
     return subgraph3
 

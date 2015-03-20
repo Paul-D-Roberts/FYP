@@ -10,3 +10,29 @@ def find_dual(relation):
 				keys.append(edge)
 	return relation_dual
 
+def lower_negation(graph, subgraph):
+
+	subgraph_nodes = set()
+	deleted_nodes = set()
+	subgraph3 = [set(), {}]
+
+	for keys, values in subgraph[1].iteritems():
+		for element in values:
+			subgraph_nodes.add(element)
+
+	for keys, values in graph[1].iteritems():
+		for element in values:
+			if element in subgraph_nodes:
+				deleted_nodes.add(element)
+			else:
+				subgraph3[0].add(element)
+
+	for keys, values in graph[1].iteritems():
+		for elements in values:
+			if elements in deleted_nodes:
+				break
+		else:
+			subgraph3[1][keys] = values
+
+	return subgraph3
+
