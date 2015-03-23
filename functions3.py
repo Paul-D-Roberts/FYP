@@ -36,14 +36,26 @@ def lower_negation(graph, subgraph):
 
     return subgraph3
 
-def upper_negation(graph, subgraph):
+def union(subgraph, subgraph2):
 
-    dual_graph = find_dual(graph)
-    dual_subgraph = find_dual(subgraph)
-    dual_negation = lower_negation(dual_graph, dual_subgraph)
+    subgraph_union = [set(), {}]
 
-    result = find_dual(dual_negation)
+    nodes = subgraph[0].union(subgraph2[0])
+    subgraph_edges = subgraph[1]
+    subgraph2_edges = subgraph2[1]
+    subgraph_union[0].update(nodes)
+    subgraph_union[1].update(subgraph_edges)
+    subgraph_union[1].update(subgraph2_edges)
 
-    return result
+    return subgraph_union
+
+def intersect(subgraph, subgraph2):
+
+    subgraph_intersect = [set(), {}]
+
+    nodes = subgraph[0].intersection(subgraph2[0])
+    edges = {x: subgraph[1][x] for x in subgraph[1] if x in subgraph2[1]}
+    return nodes, edges
+
 
 
