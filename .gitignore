@@ -2,3 +2,4 @@
 .idea/codeStyleSettings.xml
 *.xml
 .idea/fyp.iml
+*.pyc
