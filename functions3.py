@@ -1,4 +1,5 @@
 # Relation functions
+import copy
 
 def find_dual(relation):
 
@@ -55,7 +56,35 @@ def intersect(subgraph, subgraph2):
 
     nodes = subgraph[0].intersection(subgraph2[0])
     edges = {x: subgraph[1][x] for x in subgraph[1] if x in subgraph2[1]}
-    return nodes, edges
+
+    subgraph_intersect[0].update(nodes)
+    subgraph_intersect[1].update(edges)
+
+    return subgraph_intersect
+
+def complement(graph, subgraph):
+
+    graph_complement = copy.deepcopy(graph)
+
+    graph_complement[0].difference_update(subgraph[0])
+
+    for key2 in subgraph[1]:
+        for key1 in graph[1]:
+            if key1 == key2:
+                del graph_complement[1][key1]
+            else:
+                values = graph_complement[1][key1]
+                if key2 in values:
+                    values.remove(key2)
+
+    return graph_complement
 
 
+def find_upper_negation(graph, subgraph):
 
+    graph_complement = complement(graph, subgraph)
+    complement_dual = find_dual(graph_complement)
+    dual_negation = lower_negation(graph_complement, complement_dual)
+    upper_negation = complement(graph, dual_negation)
+
+    return upper_negation
